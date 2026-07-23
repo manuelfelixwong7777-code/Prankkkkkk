@@ -1,0 +1,52 @@
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Langsung mulai spam
+        startSpamming()
+    }
+
+    private fun startSpamming() {
+        val handler = Handler(Looper.getMainLooper())
+        
+        // Spam 15 pop-up
+        for (i in 1..15) {
+            handler.postDelayed({
+                showPopup()
+            }, i * 400L) // jeda 0.4 detik tiap pop-up
+        }
+
+        // Setelah 20 detik, muncul JUST PRANKED
+        handler.postDelayed({
+            showFinalPopup()
+        }, 20000)
+    }
+
+    private fun showPopup() {
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("⚠️ WARNING ⚠️")
+            .setMessage("YOU ARE AN IDIOT")
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setCancelable(false)
+            .setPositiveButton("OK") { _, _ -> }
+            .create()
+        
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.black)
+
+        // Getar + suara
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrator.vibrate(200)
+    }
+
+    private fun showFinalPopup() {
+        AlertDialog.Builder(this)
+            .setTitle("😂")
+            .setMessage("JUST PRANKED")
+            .setPositiveButton("LOL") { _, _ -> finish() }
+            .setCancelable(false)
+            .show()
+    }
+}
